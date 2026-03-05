@@ -15,7 +15,7 @@ except ImportError:
 # Sonido
 try:
     import winsound
-    SOUND_AVAILABLE = True
+    SOUND_AVAILABLE = False
     IS_WINDOWS = True
 except ImportError:
     IS_WINDOWS = False
