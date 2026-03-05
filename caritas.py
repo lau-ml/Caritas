@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import font as tkfont
 import platform
 import os
+import sys
 
 # --- REQUISITO: INSTALAR PILLOW (pip install pillow) ---
 try:
@@ -19,6 +20,17 @@ try:
 except ImportError:
     IS_WINDOWS = False
     SOUND_AVAILABLE = False
+
+
+def resource_path(relative_path):
+    """ Obtiene la ruta absoluta del recurso, funciona para dev y para PyInstaller """
+    try:
+        # PyInstaller crea una carpeta temporal y guarda la ruta en _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class FocusTimer:
     def __init__(self, root):
@@ -72,10 +84,12 @@ class FocusTimer:
         self.canvas.pack(fill="both", expand=True)
 
         # 1. IMAGEN DE FONDO
-        if PIL_AVAILABLE and os.path.exists("background.jpg"):
+        ruta_imagen = resource_path("background.jpg")
+        if PIL_AVAILABLE and os.path.exists(ruta_imagen):
             try:
-                self.bg_image_original = Image.open("background.jpg").convert("RGB")
-            except: pass
+                self.bg_image_original = Image.open(ruta_imagen).convert("RGB")
+            except:
+                pass
         
         self.bg_photo_id = self.canvas.create_image(0, 0, anchor="nw", tags="bg_img")
 
@@ -299,11 +313,3 @@ if __name__ == "__main__":
     root.mainloop()
     
     
-# 1. En __init__, añade el color para el tiempo extra
-  
-
-    # 2. Reemplaza estas funciones para permitir el conteo negativo
-
-
-
-
