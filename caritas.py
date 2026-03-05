@@ -282,9 +282,7 @@ class FocusTimer:
         self.blink_loop()
 
     def blink_loop(self):
-        if not self.blinking: return
-        if IS_WINDOWS and SOUND_AVAILABLE: winsound.Beep(800, 150)
-        
+        if not self.blinking: return        
         # Parpadeo rápido solo al llegar a cero (primeros 5 segundos)
         if abs(self.remaining) < 5:
             current_fill = self.canvas.itemcget(self.icon_id, "fill")
